@@ -10,37 +10,43 @@ import guru.springfamework.repositories.CategoryRepository;
 @Component
 public class Bootstrap implements CommandLineRunner {
 
-	CategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
 
-	@Autowired
-	public Bootstrap(CategoryRepository categoryRepository) {
-		this.categoryRepository = categoryRepository;
-	}
+    @Autowired
+    public Bootstrap(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
-		Category fruits = new Category();
-		fruits.setName("Fruits");
+    @Override
+    public void run(String... args) throws Exception {
 
-		Category dried = new Category();
-		fruits.setName("Dried");
+        Category fruits = new Category();
+        fruits.setName("Fruits");
 
-		Category fresh = new Category();
-		fruits.setName("Fresh");
+        Category dried = new Category();
+        dried.setName("Dried");
 
-		Category exotic = new Category();
-		fruits.setName("Exotic");
+        Category fresh = new Category();
+        fresh.setName("Fresh");
 
-		Category nuts = new Category();
-		fruits.setName("Nuts");
+        Category exotic = new Category();
+        exotic.setName("Exotic");
 
-		categoryRepository.save(fruits);
-		categoryRepository.save(dried);
-		categoryRepository.save(fresh);
-		categoryRepository.save(exotic);
-		categoryRepository.save(nuts);
+        Category nuts = new Category();
+        nuts.setName("Nuts");
 
-		System.out.println("Data Loaded - " + categoryRepository.count());
-	}
+        Category test = new Category();
+        test.setName("Johnny Cage");
+
+        categoryRepository.save(fruits);
+        categoryRepository.save(dried);
+        categoryRepository.save(fresh);
+        categoryRepository.save(exotic);
+        categoryRepository.save(nuts);
+
+        categoryRepository.save(test);
+
+        System.out.println("Data Loaded - " + categoryRepository.count());
+    }
 
 }
