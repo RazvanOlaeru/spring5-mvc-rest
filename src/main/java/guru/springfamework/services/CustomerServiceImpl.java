@@ -6,11 +6,13 @@ import guru.springfamework.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    public static final String API_V1_CUSTOMERS = "/api/v1/customers/";
     private final CustomerMapper customerMapper;
     private final CustomerRepository customerRepository;
 
@@ -23,8 +25,19 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll()
                 .stream()
-                .map(customerMapper::customerToCustomerDTO)
+                .map(customer ->  {
+                    CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
+                    customerDTO.setCustomerUrl(API_V1_CUSTOMERS + customer.getId());
+                    return customerDTO;
+                })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public CustomerDTO getCustomerById(Long id) {
+        return customerRepository.findById(id)
+                .map(customerMapper::customerToCustomerDTO)
+                .orElseThrow(RuntimeException::new); //TODO: implement better exception handling
     }
 
     @Override
@@ -34,11 +47,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerByLastName(String lastName) {
-        return null;
+        return customerMapper.customerToCustomerDTO(customerRepository.findByLastName(lastName));
     }
 
     @Override
     public CustomerDTO getCustomerByFirstNameAndLastName(String firstName, String lastName) {
-        return null;
+        return customerMapper.customerToCustomerDTO(customerRepository.findByFirstNameAndLastName(firstName, lastName));
     }
 }
