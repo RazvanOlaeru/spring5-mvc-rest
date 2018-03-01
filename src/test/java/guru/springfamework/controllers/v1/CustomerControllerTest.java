@@ -70,8 +70,9 @@ public class CustomerControllerTest {
 
         Mockito.when(customerService.getCustomerByFirstName(FIRST_NAME)).thenReturn(customerDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers/" + FIRST_NAME)
-        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers")
+        		.param("firstName", FIRST_NAME)
+        		.contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", Matchers.equalTo(FIRST_NAME)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", Matchers.equalTo(LAST_NAME)));
