@@ -198,4 +198,13 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", Matchers.equalTo("Stark")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer_url", Matchers.equalTo("/api/v1/customers/" + ID)));
     }
+
+    @Test
+    public void deleteCustomerById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/customers/" + ID)
+        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(customerService).deleteCustomemerById(Mockito.anyLong());
+    }
 }
