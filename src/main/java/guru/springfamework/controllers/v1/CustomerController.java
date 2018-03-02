@@ -60,4 +60,18 @@ public class CustomerController {
                 customerService.createNewCustomer(customerDTO), HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/{id:[\\d]+}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id,@RequestBody CustomerDTO customerDTO) {
+        return new ResponseEntity<CustomerDTO>(
+                customerService.saveCustomerByDTO(id, customerDTO), HttpStatus.OK
+        );
+    }
+
+    @PatchMapping("/{id:[\\d]+}")
+    public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable Long id,@RequestBody CustomerDTO customerDTO) {
+        return new ResponseEntity<CustomerDTO>(
+                customerService.patchCustomer(id, customerDTO), HttpStatus.OK
+        );
+    }
 }
